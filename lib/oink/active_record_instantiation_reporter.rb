@@ -26,7 +26,7 @@ module Oink
             @pids[pid][:buffer] << line
           end
 
-          if line =~ /Processing ((\w+)#(\w+)) /
+          if line =~ /Processing by (([\w:]+)#(\w+)) /
 
             @pids[pid][:action] = $1
             unless @pids[pid][:request_finished]
@@ -38,7 +38,7 @@ module Oink
 
             @pids[pid][:ar_count] = $1.to_i
       
-          elsif line =~ /Completed in/
+          elsif line =~ /Completed \d+ \w+ in/
 
             if @pids[pid][:ar_count] > @threshold
               @bad_actions[@pids[pid][:action]] ||= 0
